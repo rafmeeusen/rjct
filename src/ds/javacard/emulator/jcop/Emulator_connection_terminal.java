@@ -152,9 +152,7 @@ public class Emulator_connection_terminal extends CardTerminal {
             }
 
             ATR smio_atr = new ATR(atrbytes);
-            com.ibm.jc.ATR jc_atr = new com.ibm.jc.ATR(atrbytes);
-           
-            JCard card = new JCard(jc_terminal, jc_atr, 0);
+            JCard card = new JCard(jc_terminal, null, 0);
 
             return new Emulator_connection_card(this, card, 
                                                 smio_atr, verbosity);
