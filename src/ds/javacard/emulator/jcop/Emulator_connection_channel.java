@@ -25,6 +25,7 @@
 package ds.javacard.emulator.jcop;
 
 import java.nio.ByteBuffer;
+
 import javax.smartcardio.CardException;
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.Card;
@@ -142,6 +143,11 @@ public class Emulator_connection_channel extends CardChannel {
         //      CardException("Emulators do not support extended APDU's");
 
         byte[] apdu_bytes = capdu.getBytes();
+
+        if(verbosity > 0) {
+        	printba("command apdu", apdu_bytes); 
+        }
+
         byte[] res = null;
         try {
             res = jcard.send(0, apdu_bytes, 0, apdu_bytes.length);
@@ -155,19 +161,22 @@ public class Emulator_connection_channel extends CardChannel {
         }
 
         if(verbosity > 0) {
-            System.out.format("response apdu (%d bytes): ", res.length);
-            System.out.flush();
-            for(int i = 0; i < res.length; i++) {
-                System.out.format(" %02X", res[i]);
-            }
-            System.out.println("");
+            printba("response apdu", apdu_bytes); 
         }
 
         return new ResponseAPDU(res);
     }
 
+    private void printba(String info, byte[] bytes2print) {
+        System.out.format(info + " (%d bytes): ", bytes2print.length);
+        System.out.flush();
+        for(int i = 0; i < bytes2print.length; i++) {
+            System.out.format(" %02X", bytes2print[i]);
+        }
+        System.out.println("");
+	}
 
-    // Transmits the command APDU stored in the command ByteBuffer and
+	// Transmits the command APDU stored in the command ByteBuffer and
     // receives the reponse APDU in the response ByteBuffer.
     // 
     // The command buffer must contain valid command APDU data starting
