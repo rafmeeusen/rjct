@@ -161,7 +161,7 @@ public class Emulator_connection_channel extends CardChannel {
         }
 
         if(verbosity > 0) {
-            printba("response apdu", apdu_bytes); 
+            printba("response apdu", res); 
         }
 
         return new ResponseAPDU(res);
